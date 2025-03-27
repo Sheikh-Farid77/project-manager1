@@ -1,9 +1,9 @@
 import Project from "./Project";
 
-export default function ProjectCategory({type, color}) {
+export default function ProjectCategory({type, color, category, projects, text}) {
   return (
     <div className="mb-4 w-full px-2 sm:w-1/2 md:w-1/4">
-      <div className={`rounded-lg bg-${color} p-4`}>
+      <div className={`rounded-lg ${color} p-4`}>
         <div className="mb-2 flex items-center justify-between">
           <h3 className="text-lg font-semibold">{type}</h3>
           <svg
@@ -27,7 +27,10 @@ export default function ProjectCategory({type, color}) {
           </svg>
         </div>
         <div>
-          <Project color= {color} />
+          {
+            projects.map((project) => project.category === category && <Project key={project.id} text={text} project = {project} />)
+          }
+          
         </div>
       </div>
     </div>

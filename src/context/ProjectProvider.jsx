@@ -1,12 +1,22 @@
-import { createContext, useContext, useReducer } from "react";
+import { createContext, useContext, useReducer, useState } from "react";
 import { projectReducer } from "../reducer/projectReducer";
+import { data } from "../data/data";
 
+// create a context for easy state management
 const projectContext = createContext(null);
 export default function ProjectProvider({children}){
+    const initialProjects = data;
+// reducer function for clean controller section
+    const[projects, dispatch] = useReducer(projectReducer, initialProjects);
+    const [searchValue, setSearchValue] = useState('');
 
-    const[projects, dispatch] = useReducer(projectReducer, [])
+    const handleSearchValue = (e)=> setSearchValue(e.target.value);
 
     const state = {
+        projects,
+        dispatch,
+        handleSearchValue,
+        searchValue
 
     }
     return (
@@ -14,6 +24,7 @@ export default function ProjectProvider({children}){
     );
 }
 
+// create a custom hook to write less code
 // eslint-disable-next-line react-refresh/only-export-components
 export const useProjects = ()=>{
     return useContext(projectContext)
