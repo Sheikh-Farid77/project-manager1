@@ -9,14 +9,20 @@ export default function ProjectProvider({children}){
 // reducer function for clean controller section
     const[projects, dispatch] = useReducer(projectReducer, initialProjects);
     const [searchValue, setSearchValue] = useState('');
+    const [showModal, setShowModal] = useState(false); //visibility flag for open modal 
 
+
+//define handlers for action
     const handleSearchValue = (e)=> setSearchValue(e.target.value);
+    const handleShowModal = (action)=> setShowModal(action);
 
     const state = {
         projects,
         dispatch,
         handleSearchValue,
-        searchValue
+        searchValue,
+        showModal,
+        handleShowModal
 
     }
     return (

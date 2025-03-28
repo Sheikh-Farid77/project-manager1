@@ -1,17 +1,21 @@
 import { useProjects } from "../../context/ProjectProvider";
 import AddProject from "./AddProject";
 import ProjectCategory from "./ProjectCategory";
+import AddProjectModal from "../../utility/AddProjectModal";
 
 export default function ProjectBoard() {
-  const { projects, searchValue } = useProjects();
+  const { projects, searchValue, showModal, handleShowModal } = useProjects();
 
   // filter projects by searchValue
   const filteredProjects = projects?.filter((project) =>
     project.taskName.toLowerCase().includes(searchValue.toLowerCase())
   );
 
-  return (
+  return (    
     <div className="mx-auto max-w-7xl p-6">
+      {
+        showModal && <AddProjectModal onShowModal = {handleShowModal} />
+      }
       <AddProject />
       <div className="-mx-2 mb-6 flex flex-wrap">
         {/* ToDo Category */}
