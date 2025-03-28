@@ -10,11 +10,13 @@ export default function ProjectProvider({children}){
     const[projects, dispatch] = useReducer(projectReducer, initialProjects);
     const [searchValue, setSearchValue] = useState('');
     const [showModal, setShowModal] = useState(false); //visibility flag for open modal 
+    const [currentTask, setCurrentTask] = useState(null);
 
 
 //define handlers for action
     const handleSearchValue = (e)=> setSearchValue(e.target.value);
     const handleShowModal = (action)=> setShowModal(action);
+    const handleCurrentTask = (task)=> setCurrentTask(task);
 
     const state = {
         projects,
@@ -22,7 +24,9 @@ export default function ProjectProvider({children}){
         handleSearchValue,
         searchValue,
         showModal,
-        handleShowModal
+        handleShowModal,
+        currentTask,
+        handleCurrentTask
 
     }
     return (

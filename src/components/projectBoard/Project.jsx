@@ -1,4 +1,14 @@
+import { useProjects } from "../../context/ProjectProvider";
+
 export default function Project({text, project}) {
+
+  const {handleShowModal, handleCurrentTask} = useProjects();
+
+  const handleTaskUpdate = (task)=>{
+    handleShowModal(true);
+    handleCurrentTask(task);
+
+  }
   return (
     <div className="mb-4 rounded-lg bg-gray-800 p-4">
       <div className="flex justify-between">
@@ -26,7 +36,9 @@ export default function Project({text, project}) {
               <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
             </svg>
           </button>
-          <button>
+          <button
+          onClick={()=> handleTaskUpdate(project)}
+          >
             <svg
               className="h-4 w-4 cursor-pointer text-zinc-300"
               fill="none"

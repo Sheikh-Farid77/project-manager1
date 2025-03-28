@@ -7,14 +7,17 @@ export const projectReducer = (state, action) => {
             return[
                 ...state,
                 {
-                    ...action.payload,
                     id: generateId(state),
+                    ...action.payload,
+                    
                 }
             ]
 
 
         case UPDATED:
-            return
+            return state.map((task) =>
+                task.id === action.payload.id ? action.payload : task
+            );
         case DELETED:
             return
 

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useProjects } from "../context/ProjectProvider";
-import { ADDED } from "../reducer/action";
+import { ADDED, UPDATED } from "../reducer/action";
 
 export default function AddProjectModal({ onShowModal }) {
   const initialProject = {
@@ -11,8 +11,10 @@ export default function AddProjectModal({ onShowModal }) {
     category: "todo",
   };
 
-  const [inputProject, setInputProject] = useState(initialProject);
-  const {dispatch} = useProjects();
+  const {dispatch, currentTask, handleCurrentTask} = useProjects();
+  const [inputProject, setInputProject] = useState(currentTask ?? initialProject);
+  
+
   // controlled input
   const handleInputProject = (e) => {
    
@@ -29,16 +31,28 @@ export default function AddProjectModal({ onShowModal }) {
     const isNotEmptyInputs = inputValues.every((value) => Boolean(String(value).trim()));
 
     if(isNotEmptyInputs){
-      dispatch({
-        type: ADDED,
-        payload: {
-          ...inputProject
+      if(JSON.stringify(currentTask) === JSON.stringify(inputProject)){
+        toast.warning(
+          "Hmm, the task remains the same after the update attempt."
+        )
+      }else{
+        dispatch({
+          type: currentTask ? UPDATED : ADDED,
+          payload: {
+            ...inputProject
+          }
+        })
+  
+        toast.success(
+          `Task successfully ${currentTask ? 'updated' : 'added'}.`
+        )
+        if(currentTask){
+          handleCurrentTask(null);
         }
-      })
-
-      toast.success(
-        'task successfully added'
-      )
+        onShowModal(false)
+      }
+      
+      
 
     }else{
       toast.error(
@@ -131,7 +145,10 @@ export default function AddProjectModal({ onShowModal }) {
 
               <div className="flex justify-end space-x-3">
                 <button
-                  onClick={() => onShowModal(false)}
+                  onClick={() =>{ 
+                  onShowModal(false)
+                  handleCurrentTask(null)
+                }}
                   type="button"
                   className="rounded-md border border-gray-600 px-4 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-800"
                 >
