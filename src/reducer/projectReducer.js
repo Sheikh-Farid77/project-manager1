@@ -4,12 +4,12 @@ import { ADDED, DELETED, UPDATED } from "./action";
 export const projectReducer = (state, action) => {
     switch (action.type) {
         case ADDED:
-            return[
+            return [
                 ...state,
                 {
                     id: generateId(state),
                     ...action.payload,
-                    
+
                 }
             ]
 
@@ -19,7 +19,7 @@ export const projectReducer = (state, action) => {
                 task.id === action.payload.id ? action.payload : task
             );
         case DELETED:
-            return
+            return state.filter((task) => task.id !== action.payload.id);
 
         default:
             return state;

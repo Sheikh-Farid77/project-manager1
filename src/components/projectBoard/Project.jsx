@@ -1,13 +1,23 @@
 import { useProjects } from "../../context/ProjectProvider";
+import { DELETED } from "../../reducer/action";
 
 export default function Project({text, project}) {
 
-  const {handleShowModal, handleCurrentTask} = useProjects();
+  const {handleShowModal, handleCurrentTask, dispatch} = useProjects();
 
   const handleTaskUpdate = (task)=>{
     handleShowModal(true);
     handleCurrentTask(task);
 
+  }
+
+  const handleDeleteTask = (task)=>{
+dispatch({
+  type: DELETED,
+  payload: {
+    ...task
+  }
+})
   }
   return (
     <div className="mb-4 rounded-lg bg-gray-800 p-4">
@@ -15,7 +25,9 @@ export default function Project({text, project}) {
         <h4 className={`mb-2 flex-1 font-semibold ${text}`}>{project.taskName}</h4>
 
         <div className="flex gap-2">
-          <button>
+          <button 
+          onClick={()=>handleDeleteTask(project)}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"

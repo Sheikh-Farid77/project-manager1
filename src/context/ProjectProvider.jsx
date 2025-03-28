@@ -1,13 +1,12 @@
 import { createContext, useContext, useReducer, useState } from "react";
 import { projectReducer } from "../reducer/projectReducer";
-import { data } from "../data/data";
 
 // create a context for easy state management
 const projectContext = createContext(null);
 export default function ProjectProvider({children}){
-    const initialProjects = data;
+    
 // reducer function for clean controller section
-    const[projects, dispatch] = useReducer(projectReducer, initialProjects);
+    const[projects, dispatch] = useReducer(projectReducer, []);
     const [searchValue, setSearchValue] = useState('');
     const [showModal, setShowModal] = useState(false); //visibility flag for open modal 
     const [currentTask, setCurrentTask] = useState(null);
